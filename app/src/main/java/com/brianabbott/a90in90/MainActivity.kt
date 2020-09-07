@@ -4,9 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.DatePicker
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -25,9 +23,6 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
         sharedPreferences = AppSharedPreferences(this@MainActivity)
 
-        sharedPreferences.setYearPreference(0)
-        sharedPreferences.setMonthPreference(0)
-        sharedPreferences.setDayPreference(0)
 
         /** If the user has selected a date, navigate to the meetings activity */
         if ((sharedPreferences.getDay() != 0) && (sharedPreferences.getMonth() != 0) && (sharedPreferences.getYear() != 0)) {
@@ -76,8 +71,6 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun saveDate() {
-        val text = "${savedMonth.toString()}/${savedDay.toString()}/${savedYear.toString()}"
-        Toast.makeText(applicationContext, text, Toast.LENGTH_LONG).show()
         sharedPreferences.setDayPreference(savedDay)
         sharedPreferences.setMonthPreference(savedMonth)
         sharedPreferences.setYearPreference(savedYear)
