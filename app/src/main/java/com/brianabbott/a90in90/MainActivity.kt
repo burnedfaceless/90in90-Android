@@ -25,9 +25,10 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
 
         /** If the user has selected a date, navigate to the meetings activity */
-        if ((sharedPreferences.getDay() != 0) && (sharedPreferences.getMonth() != 0) && (sharedPreferences.getYear() != 0)) {
+        if (sharedPreferences.getStartingDatePreference() != null) {
             navigateToMeetingsActivity()
         }
+
 
         setContentView(R.layout.activity_main)
 
@@ -71,9 +72,10 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun saveDate() {
-        sharedPreferences.setDayPreference(savedDay)
-        sharedPreferences.setMonthPreference(savedMonth)
-        sharedPreferences.setYearPreference(savedYear)
+        val month = savedMonth.toString()
+        val day = savedDay.toString()
+        val year = savedYear.toString()
+        sharedPreferences.setStartingDayPreference("$month/$day/$year")
     }
 
 }

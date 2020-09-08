@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_meetings.*
 import java.text.SimpleDateFormat
@@ -25,17 +26,34 @@ class MeetingsActivity : AppCompatActivity() {
         endDate = getEndDate(startDate)
 
         date_range_textview.text = "$startDate - $endDate"
+
+        val button: Button = findViewById<Button>(R.id.add_meeting_button)
+
+        button.setOnClickListener {
+            openDialog()
+        }
     }
 
     private fun getStartDate() : String {
-        return sharedPreferences.getMonth().toString() + "/" + sharedPreferences.getDay().toString() + "/" + sharedPreferences.getYear().toString()
+        val date: String? = sharedPreferences.getStartingDatePreference()
+        val dateFormatPreference = sharedPreferences.getDateFormatPreference()
+        val dateFormatFrom = SimpleDateFormat("MM/dd/yyyy", Locale("English"))
+        val dateFormatTo = SimpleDateFormat(dateFormatPreference, Locale("English"))
+        val dateObject = dateFormatFrom.parse(date)
+        return dateFormatTo.format(dateObject)
+    }
+
+    private fun openDialog() {
+        val addMeetingDialog = AddMeetingDialog()
+        addMeetingDialog.show(supportFragmentManager, "Add Meeting")
     }
 
     private fun getEndDate(startDate: String) : String {
-        val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale("English"))
+        val dateFormatPreference = sharedPreferences.getDateFormatPreference()
+        val dateFormat = SimpleDateFormat(dateFormatPreference, Locale("English"))
         val calendar = Calendar.getInstance()
         calendar.time = dateFormat.parse(startDate)!!
-        calendar.add(Calendar.DAY_OF_YEAR, 90)
+        calendar.add(Calendar.DAY_OF_YEAR, 89)
         return dateFormat.format(calendar.time)
     }
 
@@ -47,7 +65,7 @@ class MeetingsActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.reset -> clearData()
+            R.id.reset -> reset()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -58,11 +76,11 @@ class MeetingsActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun clearData() {
-        sharedPreferences.setYearPreference(0)
-        sharedPreferences.setMonthPreference(0)
-        sharedPreferences.setDayPreference(0)
+    private fun reset() {
+        sharedPreferences.setStartingDayPreference(null)
 
         navigateToMainActivity()
     }
+
+
 }

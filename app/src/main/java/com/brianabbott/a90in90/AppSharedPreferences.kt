@@ -5,35 +5,18 @@ import android.content.Context
 class AppSharedPreferences(context: Context) {
     private val preferences = context.getSharedPreferences("90in90", Context.MODE_PRIVATE)
 
-    fun setMonthPreference(month: Int) {
+    fun setStartingDayPreference(date: String?) {
         val editor = preferences.edit()
-
-        editor.putInt("month", month)
-
+        editor.putString("startingDate", date)
         editor.apply()
     }
 
-    fun setDayPreference(day: Int) {
-        val editor = preferences.edit()
-        editor.putInt("day", day)
-        editor.apply()
+    fun getDateFormatPreference() : String? {
+        return preferences.getString("dateFormat", "MM/dd/yyyy")
     }
 
-    fun setYearPreference(year: Int) {
-        val editor = preferences.edit()
-        editor.putInt("year", year)
-        editor.apply()
+    fun getStartingDatePreference() : String? {
+        return preferences.getString("startingDate", null)
     }
 
-    fun getMonth() : Int {
-        return preferences.getInt("month", 0)
-    }
-
-    fun getDay() : Int {
-        return preferences.getInt("day", 0)
-    }
-
-    fun getYear() : Int {
-        return preferences.getInt("year", 0)
-    }
 }

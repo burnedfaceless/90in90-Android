@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">90 in 90</string>
     <string name="reset_data">Reset Data</string>
+    <string name="date_formatting">Date Format</string>
 </resources>
