@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.DatePicker
+import com.brianabbott.a90in90.OverviewActivity.OverviewActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -22,7 +23,6 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
         super.onCreate(savedInstanceState)
 
         sharedPreferences = AppSharedPreferences(this@MainActivity)
-
 
         /** If the user has selected a date, navigate to the meetings activity */
         if (sharedPreferences.getStartingDatePreference() != null) {
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun navigateToMeetingsActivity() {
-        val intent = Intent(this, MeetingsActivity::class.java)
+        val intent = Intent(this, OverviewActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
         startActivity(intent)
     }

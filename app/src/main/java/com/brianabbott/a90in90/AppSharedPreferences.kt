@@ -11,6 +11,12 @@ class AppSharedPreferences(context: Context) {
         editor.apply()
     }
 
+    fun setDateFormatPreference(dateFormat: String?) {
+        val editor = preferences.edit()
+        editor.putString("dateFormat", dateFormat)
+        editor.apply()
+    }
+
     fun getDateFormatPreference() : String? {
         return preferences.getString("dateFormat", "MM/dd/yyyy")
     }
