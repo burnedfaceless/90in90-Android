@@ -5,7 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName="meetings")
 data class Meeting (
-   @PrimaryKey var id: Int,
+   @PrimaryKey(autoGenerate = true)
+   var id: Int,
+
    var  date: String,
+
    var name: String
 )

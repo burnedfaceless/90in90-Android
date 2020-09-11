@@ -23,6 +23,7 @@ class AddMeetingDialog: DialogFragment() {
                 // Add action buttons
                 .setPositiveButton("Add Meeting",
                     DialogInterface.OnClickListener { dialog, id ->
+
                     })
                 .setNegativeButton("Cancel",
                     DialogInterface.OnClickListener { dialog, id ->

@@ -1,22 +1,22 @@
 package com.brianabbott.a90in90.OverviewActivity
 
+import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.brianabbott.a90in90.AddMeetingDialog
-import com.brianabbott.a90in90.AppSharedPreferences
-import com.brianabbott.a90in90.MainActivity
-import com.brianabbott.a90in90.R
+import com.brianabbott.a90in90.*
+import com.brianabbott.a90in90.database.MeetingsDatabase
 import com.brianabbott.a90in90.databinding.ActivityOverviewBinding
 
-class OverviewActivity : AppCompatActivity() {
-    private lateinit var sharedPreferences: AppSharedPreferences
-    private lateinit var startDate: String
-    private lateinit var endDate: String
+class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener {
     private lateinit var binding: ActivityOverviewBinding
     private lateinit var viewModel: OverviewViewModel
     private lateinit var viewModelFactory: OverviewViewModelFactory
@@ -26,14 +26,12 @@ class OverviewActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_overview)
 
-        //viewModel = ViewModelProvider(this).get(OverviewViewModel::class.java)
+        val dataSource = MeetingsDatabase.getInstance(application).meetingsDao
 
-        //sharedPreferences = AppSharedPreferences(this@MeetingsActivity)
-
-
-
-        viewModelFactory = OverviewViewModelFactory(this@OverviewActivity)
+        viewModelFactory = OverviewViewModelFactory(this@OverviewActivity, dataSource)
         viewModel = ViewModelProvider(this, viewModelFactory).get(OverviewViewModel::class.java)
+
+        binding.lifecycleOwner = this
 
         viewModel.generateDateRange()
 
@@ -47,8 +45,17 @@ class OverviewActivity : AppCompatActivity() {
         button.setOnClickListener {
             openDialog()
         }
+
     }
 
+    override fun sendInput(input: String) {
+        viewModel.updateDateRange(input)
+    }
+
+    private fun openDateFormatDialog() {
+        val dateFormatDialog = DateFormatDialog()
+        dateFormatDialog.show(supportFragmentManager, "Select Date Format")
+    }
 
 
     private fun openDialog() {
@@ -67,6 +74,7 @@ class OverviewActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.reset -> reset()
+            R.id.date_format -> openDateFormatDialog()
         }
         return super.onOptionsItemSelected(item)
     }
