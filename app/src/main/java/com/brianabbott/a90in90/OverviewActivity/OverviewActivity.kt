@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.brianabbott.a90in90.*
 import com.brianabbott.a90in90.database.MeetingsDatabase
 import com.brianabbott.a90in90.databinding.ActivityOverviewBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
 class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener {
     private lateinit var binding: ActivityOverviewBinding
@@ -48,8 +49,8 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener {
 
     }
 
-    override fun sendInput(input: String) {
-        viewModel.updateDateRange(input)
+    override fun sendDateFormat(dateFormat: String) {
+        viewModel.updateDateRange(dateFormat)
     }
 
     private fun openDateFormatDialog() {

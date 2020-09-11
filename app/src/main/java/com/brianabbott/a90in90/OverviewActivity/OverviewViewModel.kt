@@ -35,8 +35,11 @@ class OverviewViewModel(context: Context, database: MeetingsDAO): ViewModel() {
   }
 
   fun updateDateRange(dateFormat: String) {
-    sharedPreferences.setDateFormatPreference(dateFormat)
-    //Toast.makeText(context, dateFormat, Toast.LENGTH_LONG).show()
+    if (dateFormat == "Month/Day/Year") {
+      sharedPreferences.setDateFormatPreference("MM/dd/yyyy")
+    } else {
+      sharedPreferences.setDateFormatPreference("dd/MM/yyyy")
+    }
     generateDateRange()
   }
 

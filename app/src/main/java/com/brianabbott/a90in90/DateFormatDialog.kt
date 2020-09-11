@@ -21,7 +21,7 @@ import java.lang.ClassCastException
 class DateFormatDialog: DialogFragment() {
 
     interface OnInputListener{
-        fun sendInput(dateFormat: String)
+        fun sendDateFormat(dateFormat: String)
     }
 
     lateinit var monInputListener: OnInputListener
@@ -44,7 +44,7 @@ class DateFormatDialog: DialogFragment() {
                     DialogInterface.OnClickListener { dialog, id ->
                         val spinner = view.findViewById<Spinner>(R.id.date_format_spinner)
                         val dateFormat = spinner.selectedItem.toString()
-                        monInputListener.sendInput(dateFormat)
+                        monInputListener.sendDateFormat(dateFormat)
                     })
                 .setNegativeButton("Cancel",
                     DialogInterface.OnClickListener { dialog, id ->

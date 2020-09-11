@@ -3,7 +3,7 @@
     <string name="reset_data">Reset Data</string>
     <string name="date_formatting">Date Format</string>
     <string-array name="date_format_array">
-        <item>MM/dd/yyyy</item>
-        <item>dd/MM/yyyy</item>
+        <item>Month/Day/Year</item>
+        <item>Day/Month/Year</item>
     </string-array>
 </resources>
