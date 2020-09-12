@@ -17,7 +17,7 @@ import com.brianabbott.a90in90.database.MeetingsDatabase
 import com.brianabbott.a90in90.databinding.ActivityOverviewBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
-class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener {
+class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, AddMeetingDialog.OnInputListener {
     private lateinit var binding: ActivityOverviewBinding
     private lateinit var viewModel: OverviewViewModel
     private lateinit var viewModelFactory: OverviewViewModelFactory
@@ -53,18 +53,20 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener {
         viewModel.updateDateRange(dateFormat)
     }
 
+    override fun sendMeetingInfo(meetingName: String, meetingDate: String) {
+        Toast.makeText(applicationContext, meetingName, Toast.LENGTH_LONG).show()
+        Toast.makeText(applicationContext, meetingDate, Toast.LENGTH_LONG).show()
+    }
+
     private fun openDateFormatDialog() {
         val dateFormatDialog = DateFormatDialog()
         dateFormatDialog.show(supportFragmentManager, "Select Date Format")
     }
 
-
     private fun openDialog() {
         val addMeetingDialog = AddMeetingDialog()
         addMeetingDialog.show(supportFragmentManager, "Add Meeting")
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)

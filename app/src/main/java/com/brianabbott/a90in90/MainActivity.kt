@@ -11,34 +11,35 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     private lateinit var sharedPreferences: AppSharedPreferences
-    var day = 0
-    var month = 0
-    var year = 0
+    private var day: Int = 0
+    private var month: Int = 0
+    private var year: Int = 0
 
-    var savedMonth = 0
-    var savedDay = 0
-    var savedYear = 0
+    private var savedMonth: Int = 0
+    private var savedDay: Int = 0
+    private var savedYear: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         sharedPreferences = AppSharedPreferences(this@MainActivity)
 
-        /** If the user has selected a date, navigate to the meetings activity */
+        /**
+         * If the user has previously selected a date, navigate to the meetings activity
+         * */
         if (sharedPreferences.getStartingDatePreference() != null) {
             navigateToMeetingsActivity()
+        } else {
+            setContentView(R.layout.activity_main)
+
+            // Calendar
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+
+            pickDate()
         }
-
-
-        setContentView(R.layout.activity_main)
-
-        // Calendar
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-
-        pickDate()
     }
 
     private fun getDate() {
