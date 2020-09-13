@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.brianabbott.a90in90.*
+import com.brianabbott.a90in90.database.Meeting
 import com.brianabbott.a90in90.database.MeetingsDatabase
 import com.brianabbott.a90in90.databinding.ActivityOverviewBinding
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,9 +36,23 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
         binding.lifecycleOwner = this
 
         viewModel.generateDateRange()
+        //viewModel.getNumberOfMeetings()
 
         viewModel.dateRange.observe(this, androidx.lifecycle.Observer { newDateRange ->
             binding.dateRangeTextview.text = newDateRange
+        })
+
+        viewModel.numOfMeetings.observe(this, androidx.lifecycle.Observer {
+            viewModel.generateMeetingsAttendedText()
+            viewModel.generateMeetingsRemainingText()
+        })
+
+        viewModel.meetingsAttendedText.observe(this, androidx.lifecycle.Observer { newMeetingsAttendedText ->
+            binding.meetingsAttendedTextview.text = newMeetingsAttendedText.toString()
+        })
+
+        viewModel.meetingsRemainingText.observe(this, androidx.lifecycle.Observer { newMeetingsRemainingText ->
+            binding.meetingsRemainingTextview.text = newMeetingsRemainingText.toString()
         })
 
 
@@ -54,8 +69,8 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
     }
 
     override fun sendMeetingInfo(meetingName: String, meetingDate: String) {
-        Toast.makeText(applicationContext, meetingName, Toast.LENGTH_LONG).show()
-        Toast.makeText(applicationContext, meetingDate, Toast.LENGTH_LONG).show()
+        val meeting = Meeting(0, meetingDate, meetingName)
+        viewModel.addMeeting(meeting)
     }
 
     private fun openDateFormatDialog() {
@@ -90,8 +105,7 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
 
     private fun reset() {
         viewModel.resetSharedPreferences()
+        viewModel.clearDatabase()
         navigateToMainActivity()
     }
-
-
 }
