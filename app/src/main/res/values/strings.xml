@@ -2,6 +2,7 @@
     <string name="app_name">90 in 90</string>
     <string name="reset_data">Reset Data</string>
     <string name="date_formatting">Date Format</string>
+    <string name="view_meetings">View Meetings</string>
     <string-array name="date_format_array">
         <item>Month/Day/Year</item>
         <item>Day/Month/Year</item>

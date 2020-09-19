@@ -42,6 +42,10 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
             binding.dateRangeTextview.text = newDateRange
         })
 
+        viewModel.daysPassed.observe(this, androidx.lifecycle.Observer {
+            viewModel.generateMeetingsAttendedText()
+        })
+
         viewModel.numOfMeetings.observe(this, androidx.lifecycle.Observer {
             viewModel.generateMeetingsAttendedText()
             viewModel.generateMeetingsRemainingText()
@@ -62,6 +66,11 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
             openDialog()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.countDays()
     }
 
     override fun sendDateFormat(dateFormat: String) {
