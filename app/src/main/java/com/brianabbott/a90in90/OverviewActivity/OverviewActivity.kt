@@ -44,6 +44,7 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
 
         viewModel.daysPassed.observe(this, androidx.lifecycle.Observer {
             viewModel.generateMeetingsAttendedText()
+            viewModel.generateMeetingsRemainingText()
         })
 
         viewModel.numOfMeetings.observe(this, androidx.lifecycle.Observer {
@@ -60,9 +61,9 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
         })
 
 
-        val button = binding.addMeetingButton
+        val addMeetingButton = binding.addMeetingButton
 
-        button.setOnClickListener {
+        addMeetingButton.setOnClickListener {
             openDialog()
         }
 
