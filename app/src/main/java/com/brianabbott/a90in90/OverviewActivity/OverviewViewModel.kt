@@ -27,6 +27,10 @@ class OverviewViewModel(context: Context, database: MeetingsDAO): ViewModel() {
 
   val numOfMeetings = database.countMeetings()
 
+  private val _meetingsRemaining = MutableLiveData<Int>()
+  val meetingsRemaining: LiveData<Int>
+    get() = _meetingsRemaining
+
 
 
   /**
@@ -80,11 +84,16 @@ class OverviewViewModel(context: Context, database: MeetingsDAO): ViewModel() {
 
   fun generateMeetingsRemainingText() {
     val days = if (daysRemaining.value == 1) "day" else "days"
-    when(val remainingMeetings = 90 - numOfMeetings.value!!) {
-      0 -> _meetingsRemaingingText.value = "You have ${remainingMeetings.toString()} meetings in ${daysRemaining.value.toString()} $days remaining."
-      1 -> _meetingsRemaingingText.value = "You have ${remainingMeetings.toString()} meeting in ${daysRemaining.value.toString()} $days remaining."
-      in 2 .. 90 -> _meetingsRemaingingText.value = "You have ${remainingMeetings.toString()} meetings in ${daysRemaining.value.toString()} $days remaining."
-      else -> _meetingsRemaingingText.value = "You have completed your 90 in 90, but feel free to catch more meetings. You have in ${daysRemaining.value.toString()} $days remaining."
+    if (numOfMeetings.value != null) {
+      val numDaysRemaining = if (daysRemaining.value!! > 90) "90" else daysRemaining.value.toString()
+      when(val remainingMeetings = 90 - numOfMeetings.value!!) {
+        0 -> _meetingsRemaingingText.value = "You have ${remainingMeetings.toString()} meetings in $numDaysRemaining $days remaining."
+        1 -> _meetingsRemaingingText.value = "You have ${remainingMeetings.toString()} meeting in $numDaysRemaining $days remaining."
+        in 2 .. 90 -> _meetingsRemaingingText.value = "You have ${remainingMeetings.toString()} meetings in $numDaysRemaining $days remaining."
+        else -> _meetingsRemaingingText.value = "You have completed your 90 in 90, but feel free to catch more meetings. You have in $numDaysRemaining $days remaining."
+      }
+    } else {
+      _meetingsRemaingingText.value = "Loading"
     }
   }
 
@@ -151,6 +160,22 @@ class OverviewViewModel(context: Context, database: MeetingsDAO): ViewModel() {
     calendar.time = dateFormat.parse(startDate)!!
     calendar.add(Calendar.DAY_OF_YEAR, 89)
     return dateFormat.format(calendar.time)
+  }
+
+  fun getUnixStartDate(): Long {
+    val dateFormatPreference = sharedPreferences.getDateFormatPreference()
+    val dateFormat = SimpleDateFormat(dateFormatPreference, Locale("English"))
+    val startDate = dateFormat.parse(sharedPreferences.getStartingDatePreference())
+    return startDate.time
+  }
+
+  fun getUnixEndDate(): Long {
+    val startDate = getStartDate()
+    val endDate = getEndDate(startDate)
+    val dateFormatPreference = sharedPreferences.getDateFormatPreference()
+    val dateFormat = SimpleDateFormat(dateFormatPreference, Locale("English"))
+    val endDateUnix = dateFormat.parse(endDate)
+    return endDateUnix.time
   }
 
   fun countDays() {

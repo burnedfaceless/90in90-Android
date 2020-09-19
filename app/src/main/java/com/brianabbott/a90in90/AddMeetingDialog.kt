@@ -13,9 +13,14 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
+import org.joda.time.format.DateTimeFormat
 import java.lang.ClassCastException
+import java.text.SimpleDateFormat
+import java.util.*
 
-class AddMeetingDialog: DialogFragment() {
+class AddMeetingDialog(startDate: Long, endDate: Long): DialogFragment() {
+    private val startDate = startDate
+    private val endDate = endDate
 
     interface OnInputListener {
         fun sendMeetingInfo(meetingName: String, meetingDate: String)
@@ -34,10 +39,12 @@ class AddMeetingDialog: DialogFragment() {
             // Pass null as the parent view because its going in the dialog layout
             builder.setView(view)
                 // Add action buttons
-                .setPositiveButton("Add Meeting",
+                    val meetingDatePicker = view.findViewById<DatePicker>(R.id.meeting_date)
+                        meetingDatePicker.minDate = startDate
+                        meetingDatePicker.maxDate = endDate
+                builder.setPositiveButton("Add Meeting",
                     DialogInterface.OnClickListener { dialog, id ->
                         val meetingNameEditText  = view.findViewById<EditText>(R.id.meeting_name)
-                        val meetingDatePicker = view.findViewById<DatePicker>(R.id.meeting_date)
                         val meetingName: String = meetingNameEditText.text.toString()
                         val month: String = meetingDatePicker.month.plus(1).toString()
                         val day: String = meetingDatePicker.dayOfMonth.toString()

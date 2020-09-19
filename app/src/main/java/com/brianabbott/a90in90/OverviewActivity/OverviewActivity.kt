@@ -36,18 +36,17 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
         binding.lifecycleOwner = this
 
         viewModel.generateDateRange()
-        //viewModel.getNumberOfMeetings()
 
         viewModel.dateRange.observe(this, androidx.lifecycle.Observer { newDateRange ->
             binding.dateRangeTextview.text = newDateRange
         })
 
-        viewModel.daysPassed.observe(this, androidx.lifecycle.Observer {
+        viewModel.numOfMeetings.observe(this, androidx.lifecycle.Observer {
             viewModel.generateMeetingsAttendedText()
             viewModel.generateMeetingsRemainingText()
         })
 
-        viewModel.numOfMeetings.observe(this, androidx.lifecycle.Observer {
+        viewModel.daysPassed.observe(this, androidx.lifecycle.Observer {
             viewModel.generateMeetingsAttendedText()
             viewModel.generateMeetingsRemainingText()
         })
@@ -89,7 +88,9 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
     }
 
     private fun openDialog() {
-        val addMeetingDialog = AddMeetingDialog()
+        val startDate = viewModel.getUnixStartDate()
+        val endDate = viewModel.getUnixEndDate()
+        val addMeetingDialog = AddMeetingDialog(startDate, endDate)
         addMeetingDialog.show(supportFragmentManager, "Add Meeting")
     }
 
