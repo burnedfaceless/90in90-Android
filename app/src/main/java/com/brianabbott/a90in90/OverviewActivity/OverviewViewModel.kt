@@ -43,58 +43,76 @@ class OverviewViewModel(context: Context, database: MeetingsDAO): ViewModel() {
   /**
    * Days that have passed in 90 in 90
    */
-  private val _daysPassed = MutableLiveData<Int>()
+  private val _daysPassed = MutableLiveData<Int>(0)
   val daysPassed: LiveData<Int>
     get() = _daysPassed
 
   /**
    * Days remaining in 90 in 90
    */
-  private val _daysRemaining = MutableLiveData<Int>()
+  private val _daysRemaining = MutableLiveData<Int>(90)
   val daysRemaining: LiveData<Int>
     get() = _daysRemaining
 
   /**
    * The text that populates the meetings_attended_textview
    */
-  private val _meetingsAttendedText = MutableLiveData<String>()
+  private val _meetingsAttendedText = MutableLiveData<String>("Loading...")
   val meetingsAttendedText: LiveData<String>
     get() = _meetingsAttendedText
 
   /**
    * The text that populates the meetings_remaining_textview
    */
-  private val _meetingsRemaingingText = MutableLiveData<String>()
+  private val _meetingsRemaingingText = MutableLiveData<String>("Loading...")
   val meetingsRemainingText: LiveData<String>
     get() = _meetingsRemaingingText
 
+  /**
+   * Boolean to disable/enable the Add Meeting Button (done when you are outside of the date range of the 90 in 90)
+   */
+  private val _enableButton = MutableLiveData<Boolean>(true)
+  val enableButton: LiveData<Boolean>
+    get() = _enableButton
+
+  fun setEnableButton() {
+    _enableButton.value = (daysPassed.value!! >= 0) && (daysPassed.value!! <= 90)
+  }
+
   fun generateMeetingsAttendedText() {
-    if (daysPassed.value!! < 0) {
-      val startingDate = getStartDate()
-      _meetingsAttendedText.value = "Your 90 in 90 begins on ${startingDate}."
-    } else if (daysPassed.value!! > 90) {
-      val meetings = if (numOfMeetings.value == 1) "meeting" else "meetings"
-      _meetingsAttendedText.value = "You attended ${numOfMeetings.value} $meetings in 90 days."
-    } else if ((daysPassed.value!! >= 0) && (daysPassed.value!! <= 90)) {
-      val days = if (daysPassed.value == 1) "day" else "days"
-      val meetings = if (numOfMeetings.value == 1) "meeting" else "meetings"
-      _meetingsAttendedText.value = "You have attended ${numOfMeetings.value.toString()} $meetings in ${daysPassed.value.toString()} ${days}."
-    }
+      if (daysPassed.value!! < 0) {
+        val startingDate = getStartDate()
+        _meetingsAttendedText.value = "Your 90 in 90 begins on ${startingDate}."
+      } else if (daysPassed.value!! > 90) {
+        val meetings = if (numOfMeetings.value == 1) "meeting" else "meetings"
+        _meetingsAttendedText.value = "You attended ${numOfMeetings.value} $meetings in 90 days."
+      } else if ((daysPassed.value!! >= 0) && (daysPassed.value!! <= 90)) {
+        val days = if (daysPassed.value == 1) "day" else "days"
+        val meetings = if (numOfMeetings.value == 1) "meeting" else "meetings"
+        _meetingsAttendedText.value = "You have attended ${numOfMeetings.value.toString()} $meetings in ${daysPassed.value.toString()} ${days}."
+      }
   }
 
   fun generateMeetingsRemainingText() {
     val days = if (daysRemaining.value == 1) "day" else "days"
-    if (numOfMeetings.value != null) {
       val numDaysRemaining = if (daysRemaining.value!! > 90) "90" else daysRemaining.value.toString()
-      when(val remainingMeetings = 90 - numOfMeetings.value!!) {
-        0 -> _meetingsRemaingingText.value = "You have ${remainingMeetings.toString()} meetings in $numDaysRemaining $days remaining."
-        1 -> _meetingsRemaingingText.value = "You have ${remainingMeetings.toString()} meeting in $numDaysRemaining $days remaining."
-        in 2 .. 90 -> _meetingsRemaingingText.value = "You have ${remainingMeetings.toString()} meetings in $numDaysRemaining $days remaining."
-        else -> _meetingsRemaingingText.value = "You have completed your 90 in 90, but feel free to catch more meetings. You have in $numDaysRemaining $days remaining."
+      if (numDaysRemaining.toInt() >= 0) {
+        if (numOfMeetings.value != null) {
+          when(val remainingMeetings = 90 - numOfMeetings.value!!) {
+            0 -> _meetingsRemaingingText.value = "You have ${remainingMeetings.toString()} meetings in $numDaysRemaining $days remaining."
+            1 -> _meetingsRemaingingText.value = "You have ${remainingMeetings.toString()} meeting in $numDaysRemaining $days remaining."
+            in 2 .. 90 -> _meetingsRemaingingText.value = "You have ${remainingMeetings.toString()} meetings in $numDaysRemaining $days remaining."
+            else -> _meetingsRemaingingText.value = "You have completed your 90 in 90, but feel free to catch more meetings. You have in $numDaysRemaining $days remaining."
+          }
+          // The database hasn't retrieved data yet
+        } else {
+        _meetingsRemaingingText.value = "Loading"
       }
+      // numDaysRemaining is less than 0 ... i.e. 90 days have passed ... don't display and text in this textview
     } else {
-      _meetingsRemaingingText.value = "Loading"
+      _meetingsRemaingingText.value = ""
     }
+
   }
 
 

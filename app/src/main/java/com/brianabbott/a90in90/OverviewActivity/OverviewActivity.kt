@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.brianabbott.a90in90.*
+import com.brianabbott.a90in90.MeetingsActivity.MeetingsActivity
 import com.brianabbott.a90in90.database.Meeting
 import com.brianabbott.a90in90.database.MeetingsDatabase
 import com.brianabbott.a90in90.databinding.ActivityOverviewBinding
@@ -49,6 +50,7 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
         viewModel.daysPassed.observe(this, androidx.lifecycle.Observer {
             viewModel.generateMeetingsAttendedText()
             viewModel.generateMeetingsRemainingText()
+            viewModel.setEnableButton()
         })
 
         viewModel.meetingsAttendedText.observe(this, androidx.lifecycle.Observer { newMeetingsAttendedText ->
@@ -59,11 +61,22 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
             binding.meetingsRemainingTextview.text = newMeetingsRemainingText.toString()
         })
 
+        viewModel.enableButton.observe(this, androidx.lifecycle.Observer { newEnableButton ->
+            binding.addMeetingButton.isEnabled = newEnableButton
+
+        })
+
 
         val addMeetingButton = binding.addMeetingButton
 
         addMeetingButton.setOnClickListener {
             openDialog()
+        }
+
+        val viewMeetingsButton = binding.viewMeetingsButton
+
+        viewMeetingsButton.setOnClickListener {
+            navigateToMeetingsActivity()
         }
 
     }
@@ -111,6 +124,11 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
     private fun navigateToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        startActivity(intent)
+    }
+
+    private fun navigateToMeetingsActivity() {
+        val intent = Intent(this, MeetingsActivity::class.java)
         startActivity(intent)
     }
 
