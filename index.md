@@ -2,6 +2,9 @@
 
 90 in 90 is a simple Android app that allows a user to track AA Meetings as they complete 90 Meetings in 90 Days. The app does not connect to the internet and stores all data locally.
 
+## Privacy Policy
+This app does not collect any user data. All data is stored locally on the user device. This app does not connect to the internet or store anything in the cloud.
+
 
 ### Support or Contact
 
