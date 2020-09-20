@@ -12,7 +12,8 @@
         <activity android:name=".MeetingsActivity.MeetingsActivity"></activity>
         <activity android:name=".OverviewActivity.OverviewActivity" />
         <activity
-            android:name=".MainActivity">
+            android:name=".MainActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
