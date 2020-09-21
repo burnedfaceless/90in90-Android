@@ -17,8 +17,14 @@ class MeetingsAdapter(private val meetings: List<Meeting>?) : RecyclerView.Adapt
    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.date.text = meetings!![position].date
-        holder.itemView.name.text = meetings!![position].name
+        if (meetings != null) {
+            holder.itemView.date.text = meetings[position].date
+            holder.itemView.name.text = meetings[position].name
+        } else {
+            holder.itemView.date.text = ""
+            holder.itemView.name.text = ""
+        }
+
     }
 
     override fun getItemCount() = meetings!!.size

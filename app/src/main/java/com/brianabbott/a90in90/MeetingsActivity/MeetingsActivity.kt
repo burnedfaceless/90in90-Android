@@ -38,10 +38,4 @@ class MeetingsActivity : AppCompatActivity() {
         })
     }
 
-    /*private fun writeMeetings(meetings: List<Meeting>) {
-        val meetingsTextView = binding.meetingsTextView
-        meetings.forEach {
-            meetingsTextView.append("\n" + it.date + " " + it.name)
-        }
-    }*/
 }
