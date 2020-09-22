@@ -29,17 +29,17 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
          * */
         if (sharedPreferences.getStartingDatePreference() != null) {
             navigateToMeetingsActivity()
-        } else {
-            setContentView(R.layout.activity_main)
-
-            // Calendar
-            val c = Calendar.getInstance()
-            val year = c.get(Calendar.YEAR)
-            val month = c.get(Calendar.MONTH)
-            val day = c.get(Calendar.DAY_OF_MONTH)
-
-            pickDate()
         }
+        setContentView(R.layout.activity_main)
+
+        // Calendar
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        pickDate()
+
     }
 
     private fun getDate() {
