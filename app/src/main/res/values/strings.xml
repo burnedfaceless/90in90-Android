@@ -6,6 +6,7 @@
     <string name="welcome">Welcome</string>
     <string name="when_are_you_beginning_your_90_in_90">When are you beginning your 90 in 90?</string>
     <string name="set_date">Set Date</string>
+    <string name="add_meeting">Add Meeting</string>
     <string-array name="date_format_array">
         <item>Month/Day/Year</item>
         <item>Day/Month/Year</item>
