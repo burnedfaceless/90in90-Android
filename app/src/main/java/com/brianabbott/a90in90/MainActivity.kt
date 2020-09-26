@@ -68,7 +68,6 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     private fun navigateToMeetingsActivity() {
         val intent = Intent(this, OverviewActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
         startActivity(intent)
     }
 
