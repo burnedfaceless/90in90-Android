@@ -49,8 +49,11 @@ class OverviewActivity : AppCompatActivity(), DateFormatDialog.OnInputListener, 
 
         viewModel.daysPassed.observe(this, androidx.lifecycle.Observer {
             viewModel.generateMeetingsAttendedText()
-            viewModel.generateMeetingsRemainingText()
             viewModel.setEnableButton()
+        })
+
+        viewModel.daysRemaining.observe(this, androidx.lifecycle.Observer {
+            viewModel.generateMeetingsRemainingText()
         })
 
         viewModel.meetingsAttendedText.observe(this, androidx.lifecycle.Observer { newMeetingsAttendedText ->
