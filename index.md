@@ -8,6 +8,9 @@ This app does not collect any user data. All data is stored locally on the user 
 ## License
 This app is licensed under [GNU GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html). 
 
+## Source Code
+The source code for this app is hosting on GitHub. It can be viewed at [https://github.com/burnedfaceless/90in90-Android](https://github.com/burnedfaceless/90in90-Android).
+
 
 ## Support or Contact
 
