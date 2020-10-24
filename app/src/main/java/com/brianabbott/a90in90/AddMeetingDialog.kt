@@ -49,7 +49,7 @@ class AddMeetingDialog(startDate: Long, endDate: Long): DialogFragment() {
                         val month: String = meetingDatePicker.month.plus(1).toString()
                         val day: String = meetingDatePicker.dayOfMonth.toString()
                         val year: String = meetingDatePicker.year.toString()
-                        val meetingDate = "$month/$day/$year"
+                        val meetingDate = "$year-$month-$day"
                         monInputListener.sendMeetingInfo(meetingName, meetingDate)
                     })
                 .setNegativeButton("Cancel",

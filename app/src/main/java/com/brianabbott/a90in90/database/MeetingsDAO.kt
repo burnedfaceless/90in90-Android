@@ -15,7 +15,7 @@ interface MeetingsDAO {
     @Update
     fun update(meeting: Meeting)
 
-    @Query("SELECT * FROM meetings ORDER BY date")
+    @Query("SELECT * FROM meetings ORDER BY date(date)")
     fun getAllMeetings() : LiveData<List<Meeting>>
 
     @Query("SELECT COUNT(*) FROM meetings")

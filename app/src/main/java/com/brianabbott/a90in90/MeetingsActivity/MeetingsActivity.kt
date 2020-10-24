@@ -33,7 +33,7 @@ class MeetingsActivity : AppCompatActivity() {
         viewModel.meetings.observe(this, androidx.lifecycle.Observer { newMeetings ->
             binding.meetingsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(this@MeetingsActivity)
-                adapter = MeetingsAdapter(viewModel.meetings.value)
+                adapter = MeetingsAdapter(viewModel.meetings.value, this@MeetingsActivity)
             }
         })
     }

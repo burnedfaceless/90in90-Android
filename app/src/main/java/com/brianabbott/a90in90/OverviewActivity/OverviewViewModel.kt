@@ -198,9 +198,15 @@ class OverviewViewModel(context: Context, database: MeetingsDAO): ViewModel() {
 
   fun countDays() {
     val dateFormatPreference = sharedPreferences.getDateFormatPreference()
-    val dateFormat = SimpleDateFormat(dateFormatPreference, Locale("English"))
-    val startingDate = DateTime(dateFormat.parse(sharedPreferences.getStartingDatePreference()))
+    val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale("English"))
+    val startingDateString: String = sharedPreferences.getStartingDatePreference().toString()
+    val startingDate = DateTime(dateFormat.parse(startingDateString))
     val currentDate = DateTime()
+    Log.d("date", dateFormatPreference.toString())
+    Log.d("date", startingDate.toString())
+    Log.d("date", startingDate.toString())
+    Log.d("date", currentDate.toString())
+    Log.d("date", Days.daysBetween(startingDate, currentDate).days.toString())
     _daysPassed.value = Days.daysBetween(startingDate, currentDate).days
     /**
      * For some reason days passed is equal to 0 when checking the value between a starting date
