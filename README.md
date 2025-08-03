@@ -1,5 +1,4 @@
 # 90 in 90
 
-This is a simple app I made to track AA Meetings when I first stopped drinking. I needed to learn how to use Room for work so I went ahead and built this as it was a simpler use of Room than the app I needed to build for work.
+This is a simple app I made to track AA Meetings when I first stopped drinking. Whenever I learn a new technology, I create a simple example that illustrates its use. I created this app when I needed to learn the Room SQLite ORM for work. 
 
-I'm not planning on updating this app any time soon (the current version isn't published on Google Play).
